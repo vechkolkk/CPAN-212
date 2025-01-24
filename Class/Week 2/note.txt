@@ -1,0 +1,13 @@
+npm init -y -> Package.json
+npm i lodash -> node modules
+
+package.json after main create  "type": "module", if you wanna use import command
+run node index.js
+
+npm install -g nodemon -- globally
+npm install --save-dev nodemon
+npm i nodemon -- need to refresh your project
+
+npm i nodemon lodash -> install both together
+
+node 'filename' to run 
