@@ -1,4 +1,3 @@
-import { method } from "lodash";
 import { useState } from "react";
 
 const App = () => {
@@ -65,19 +64,19 @@ const App = () => {
   const handleSubmitMultipleFile = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    multipleFiles.forEach(file => {
-      formData.append("files", file)
-    })
+    multipleFiles.forEach((file) => {
+      formData.append("files", file);
+    });
     try {
       const response = await fetch(`http://localhost:8000/save/multiple`, {
         method: "POST",
-        body: formData
-      })
+        body: formData,
+      });
 
       const data = response.json();
-      setMessage("File has been uploaded")
+      setMessage("File has been uploaded");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   // fetch functions -> fetch multiple [TODO]
@@ -89,39 +88,39 @@ const App = () => {
       console.log(data);
       // fetch - /fetch/fil/filename variable
       const filePromises = data.map(async (filename) => {
-        const fileResponse = await fetch(`http://localhost:8000/fetch/file/${filename}`);
+        const fileResponse = await fetch(
+          `http://localhost:8000/fetch/file/${filename}`
+        );
 
         const fileBlob = await fileResponse.blob();
-        const imageURL = URL.createObjectURL(fileBlob)
+        const imageURL = URL.createObjectURL(fileBlob);
         return imageURL;
       });
 
       const imageUrls = await Promise.all(filePromises);
       setDisplayImages(imageUrls);
-
     } catch (error) {
       console.log(error);
       // the answer is in the same repository in github of professor
     }
-  }
+  };
   // fetch functions -> fetch dog image [TODO]
   const fetchDogImage = async () => {
     try {
-      const response = await fetch(`http://dog.ceo/api/breeds/image/random`);
+      const response = await fetch(`https://dog.ceo/api/breeds/image/random`);
       const data = await response.json();
       setDisplayDogImage(data.message);
-
     } catch (error) {
-
+      console.log(error);
     }
-  }
+  };
   // fetch functions -> save dog image [TODO]
   const saveDogImage = async () => {
     try {
       const fileResponse = await fetch(displayDogImage);
       const blob = await fileResponse.blob();
 
-      // 
+      //
       const formData = new FormData();
       formData.append("file", blob, "dog-image.jpg");
 
@@ -133,15 +132,15 @@ const App = () => {
       const data = await response.json();
       console.log(data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
-    <div>
+    <div style={{ margin: "0 40% ", backgroundColor: "grey" }}>
       <p>{message}</p>
-      <h2 style={{color:"red"}}>Fetch Single Random Image</h2>
-      <button onClick={fetchSingleFile}>Fetch Single File</button>
+      <h2 style={{ color: "black" }}>Fetch Single Random Image</h2>
+      <button onClick={fetchSingleFile} style={buttonStyle}>Fetch Single File</button>
       {displayImage && (
         <div>
           <h3>Single File</h3>
@@ -153,38 +152,42 @@ const App = () => {
         </div>
       )}
       <form onSubmit={handleSubmitSingleFile}>
-        <h2 style={{color:"green"}}>Upload Single File</h2>
+        <h2 style={{ color: "green" }}>Upload Single File</h2>
         <input type="file" onChange={handleSingleFileChange} />
+        <br />
+        <br />
         <button type="submit">Upload Single File</button>
       </form>
-      <h2 style={{color:"red"}}>Fetch Multiple Random Image</h2>
-      <button onClick={fetchMultipleFiles}>Fetch Multiple Files </button>
+      <h2 style={{ color: "black" }}>Fetch Multiple Random Image</h2>
+      <button onClick={fetchMultipleFiles} style={buttonStyle}>Fetch Multiple Files </button>
       {displayImages.length > 0 ? (
         displayImages.map((imageUrl, index) => (
           <div key={index}>
-            <img
-              src={imageUrl}
-              style={{ width: "200px" }}
-            />
+            <img src={imageUrl} style={{ width: "200px" }} />
           </div>
         ))
       ) : (
-        <p style={{color:"red"}}>No Images to display</p>
+        <p style={{ color: "red" }}>No Images to display</p>
       )}
 
-      <button onClick={fetchDogImage}>Fetch Dog Image</button>
+      <button onClick={fetchDogImage} style={buttonStyle}>Fetch Dog Image</button>
       {displayDogImage && (
         <div>
-          <img
-            src={displayDogImage}
-            style={{ width: "200px" }}
-          />
+          <img src={displayDogImage} style={{ width: "200px" }} />
           <br />
-          <button onClick={saveDogImage}>Save it</button>
+          <button onClick={saveDogImage} style={buttonStyle}>Save it</button>
         </div>
       )}
     </div>
   );
 };
+
+const buttonStyle = {
+  padding: "10px 15px",
+  margin: "10px",
+  border: "none",
+  borderRadius: "5px",
+  backgroundColor: "#007bff",
+}
 
 export default App;
