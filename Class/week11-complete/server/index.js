@@ -29,7 +29,7 @@ app.use((req, res) => {
 
 // Database connection
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to MongoDB");
     app.listen(PORT, () =>
