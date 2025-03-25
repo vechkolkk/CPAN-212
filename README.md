@@ -19,8 +19,9 @@ npm run dev
 
 // Commands for server folder
 npm init -y -> Package.json
+make index.js
 in package.json after main create  "type": "module"
-npm i express nodemon
+npm i express nodemon mongoose cors dotenv
 // middlelware
 app.use(cors());
 npm i cors
